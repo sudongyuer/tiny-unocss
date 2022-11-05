@@ -16,13 +16,14 @@ function App() {
           justifyContent: 'center',
           gap: '10px',
         }}>
-      
+
         </p>
         <p>vite-plugin-hot-export</p>
         <p>
           GitHub 👉 sudongyuer 🐟
         </p>
         {/* <img src={Gold}></img> */}
+        <div className="0">Test</div>
       </header>
     </div>
   )
