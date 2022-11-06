@@ -1,30 +1,32 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
 import './App.css'
-import logo from './logo.svg'
 
 function App() {
+  const [count, setCount] = useState(0)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img style={{ width: '200px' }} src={logo} alt="logo" />
-        <img style={{ width: '300px' }} src={'https://git.poker/sudongyuer/image-bed/blob/master/20220714/vite-plugin-auto-export-logo.1aoaypaggq5c.png?raw=true'} alt="logo" />
-        <img
-          style={{ width: '150px' }}
-          src={''}
-         />
-        <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '10px',
-        }}>
-
-        </p>
-        <p>vite-plugin-hot-export</p>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src="/vite.svg" className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://reactjs.org" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
         <p>
-          GitHub 👉 sudongyuer 🐟
+          Edit <code>src/App.tsx</code> and save to test HMR
         </p>
-        {/* <img src={Gold}></img> */}
-        <div className="0">Test</div>
-      </header>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
     </div>
   )
 }

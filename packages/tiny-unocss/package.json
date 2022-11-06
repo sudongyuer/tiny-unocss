@@ -51,25 +51,9 @@
     "lint-fix": "eslint . --fix",
     "try": "tsx src/index.ts"
   },
-  "dependencies": {
-    "auto-export": "^0.3.0",
-    "chokidar": "^3.5.3",
-    "unconfig": "^0.3.5"
-  },
   "devDependencies": {
-    "@sudongyuer/eslint-config": "^0.1.3",
-    "@types/node": "^18.0.0",
-    "eslint": "^8.18.0",
-    "pnpm": "^7.3.0",
-    "tsx": "^3.6.0",
-    "typescript": "^4.7.4",
     "unbuild": "^0.7.4",
     "vite": "^3.0.0",
     "vitest": "^0.15.2"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@sudongyuer"
-    ]
   }
 }
