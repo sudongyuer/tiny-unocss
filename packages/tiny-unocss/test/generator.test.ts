@@ -2,9 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { cssEscape } from '../src/uitls/cssEscape'
 import type { TinyUnocssRule } from '../src/types'
 import { generator } from '../src/generator'
+import { directionMap } from '../src/maps'
 
 describe('generator', () => {
-  it('tokens', () => {
+  it('parse tokens', () => {
     const code = 'text-2xl text-red-500 padding-4;padding-5 "hello"'
     const tokens = new Set(code.split(/[\s'"`;]/g))
     expect(tokens).toMatchInlineSnapshot(`
@@ -20,13 +21,6 @@ describe('generator', () => {
   })
 
   it('generator', () => {
-    const directionMap: Record<string, string> = {
-      'l': '-left',
-      'r': '-right',
-      't': '-top',
-      'b': '-bottom',
-      '': '',
-    }
     const rule: TinyUnocssRule
       = [/^p([trbl]?)-(\d)$/, (f, d, s) => {
         return `.${cssEscape(f)} { padding${directionMap[d] || ''} : ${(+s) / 4}rem; }`
