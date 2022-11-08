@@ -1,5 +1,5 @@
 import { createHash } from 'crypto'
-import type { Plugin } from 'vite'
+import type { Plugin, ViteDevServer } from 'vite'
 import { generator } from './generator'
 import type { TinyUnocssRule } from './types'
 import { defaultRules } from './presets'
@@ -11,15 +11,28 @@ export function getHash(input: string, length = 8) {
     .slice(0, length)
 }
 
-const VIRTUALPREFIX = '/@virtual/tinyunocss'
+const VIRTUAL_PREFIX = '/@virtual/tinyunocss'
 
 function TinyUnocssVitePlugin(rules: TinyUnocssRule[] = defaultRules): Plugin {
   const generate = generator(rules)
   const map = new Map<string, [string, string]>()
+  let server: ViteDevServer | undefined
+  const invalidate = (hash: string) => {
+    if (!server)
+      return
+    const id = `${VIRTUAL_PREFIX}${hash}.css`
+    const mod = server.moduleGraph.getModuleById(id)
+    if (!mod)
+      return
+    server.reloadModule(mod)
+  }
 
   return {
     name: 'tiny-unocss',
     enforce: 'post',
+    configureServer(_server) {
+      server = _server
+    },
     transform(code, id) {
       if (id.endsWith('.css'))
         return null
@@ -28,16 +41,17 @@ function TinyUnocssVitePlugin(rules: TinyUnocssRule[] = defaultRules): Plugin {
         return null
       const hash = getHash(id)
       map.set(hash, [id, style])
-      return `import "${VIRTUALPREFIX}${hash}.css";${code}`
+      invalidate(hash)
+      return `import "${VIRTUAL_PREFIX}${hash}.css";${code}`
     },
     resolveId(id) {
-      return id.startsWith(VIRTUALPREFIX) ? id : null
+      return id.startsWith(VIRTUAL_PREFIX) ? id : null
     },
     load(id) {
-      if (!id.startsWith(VIRTUALPREFIX))
+      if (!id.startsWith(VIRTUAL_PREFIX))
         return null
 
-      const hash = id.slice(VIRTUALPREFIX.length, -'.css'.length)
+      const hash = id.slice(VIRTUAL_PREFIX.length, -'.css'.length)
       const [source, css] = map.get(hash) || []
 
       if (source)
