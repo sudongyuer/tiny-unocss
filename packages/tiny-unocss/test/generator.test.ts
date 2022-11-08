@@ -20,14 +20,16 @@ describe('generator', () => {
   })
 
   test('generator', () => {
-    const code = 'pl-4 pt-2 pr-8 pb-12'
+    const code = 'pl-4 pt-2 pr-8 pb-12 pt-2px p-5px'
     const generate = generator({ rules: defaultRules })
     const generateCss = generate(code)
     expect(generateCss).toMatchInlineSnapshot(`
-      ".pl-4 { padding-left : 1rem; }
+      ".p-5px { padding: 5px; }
+      .pl-4 { padding-left : 1rem; }
       .pt-2 { padding-top : 0.5rem; }
       .pr-8 { padding-right : 2rem; }
-      .pb-12 { padding-bottom : 3rem; }"
+      .pb-12 { padding-bottom : 3rem; }
+      .pt-2px { padding-top : 2px; }"
     `)
   })
 })
