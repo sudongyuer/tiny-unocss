@@ -1,8 +1,8 @@
 import { createHash } from 'crypto'
 import type { Plugin, ViteDevServer } from 'vite'
 import { generator } from './generator'
-import type { TinyUnocssRule } from './types'
 import { defaultRules } from './presets'
+import type { TinyUnocssConfig } from './types'
 
 export function getHash(input: string, length = 8) {
   return createHash('sha256')
@@ -13,8 +13,8 @@ export function getHash(input: string, length = 8) {
 
 const VIRTUAL_PREFIX = '/@virtual/tinyunocss'
 
-function TinyUnocssVitePlugin(rules: TinyUnocssRule[] = defaultRules): Plugin {
-  const generate = generator(rules)
+function TinyUnocssVitePlugin(config: TinyUnocssConfig = { rules: defaultRules }): Plugin {
+  const generate = generator(config)
   const map = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
   const invalidate = (hash: string) => {
@@ -56,7 +56,8 @@ function TinyUnocssVitePlugin(rules: TinyUnocssRule[] = defaultRules): Plugin {
 
       if (source)
         this.addWatchFile(source) // 为什么要加这一句?
-      return css
+
+      return `/* ${source} */\n${css}`
     },
   }
 }

@@ -1,6 +1,7 @@
-import type { TinyUnocssRule } from '../types'
+import type { TinyUnocssConfig } from '../types'
+import { objToCss } from '../uitls/object'
 
-export function generator(rules: TinyUnocssRule[]) {
+export function generator(config: TinyUnocssConfig) {
   const cache = new Map<string, string | null>()
   return (code: string) => {
     const tokens = new Set(code.split(/[\s'"`;]/g))
@@ -15,16 +16,19 @@ export function generator(rules: TinyUnocssRule[]) {
       }
     })
 
-    for (const [matcher, handler] of rules) {
+    for (const [matcher, handler] of config.rules) {
       tokens.forEach((token) => {
         const match = token.match(matcher)
         if (match) {
-          const result = handler(...Array.from(match))
-          if (result) {
-            css.push(result)
-            cache.set(token, result)
-            tokens.delete(token)
-          }
+          let result = handler(Array.from(match))
+          if (!result)
+            return
+          if (Array.isArray(result))
+            result = result[0] + objToCss(result[1])
+
+          css.push(result)
+          cache.set(token, result)
+          tokens.delete(token)
         }
       })
     }

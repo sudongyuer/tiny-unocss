@@ -21,7 +21,7 @@ describe('generator', () => {
 
   test('generator', () => {
     const code = 'pl-4 pt-2 pr-8 pb-12'
-    const generate = generator(defaultRules)
+    const generate = generator({ rules: defaultRules })
     const generateCss = generate(code)
     expect(generateCss).toMatchInlineSnapshot(`
       ".pl-4 { padding-left : 1rem; }
