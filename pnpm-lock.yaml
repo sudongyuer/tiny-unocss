@@ -10,6 +10,7 @@ importers:
       eslint: ^8.18.0
       pnpm: ^7.3.0
       turbo: ^1.2.16
+      vitest: ^0.15.2
     devDependencies:
       '@changesets/cli': 2.25.2
       '@sudongyuer/eslint-config': 0.1.3_wyqvi574yv7oiwfeinomdzmc3m
@@ -17,6 +18,7 @@ importers:
       eslint: 8.26.0
       pnpm: 7.14.2
       turbo: 1.6.3
+      vitest: 0.15.2
 
   packages/client:
     specifiers:

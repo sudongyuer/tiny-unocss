@@ -52,7 +52,8 @@
     "@types/node": "^18.0.0",
     "eslint": "^8.18.0",
     "pnpm": "^7.3.0",
-    "turbo": "^1.2.16"
+    "turbo": "^1.2.16",
+    "vitest": "^0.15.2"
   },
   "eslintConfig": {
     "extends": [
