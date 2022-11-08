@@ -1,7 +1,7 @@
-import { cssEscape } from '../uitls/cssEscape'
-import { directionMap } from '../uitls/maps'
+import { directionMap, e } from '../uitls'
 import type { TinyUnocssRule } from '../types'
 
 export const defaultRules: TinyUnocssRule[] = [
-  [/^p([trbl]?)-(\d+)$/, ([f, d, s]) => { return `.${cssEscape(f)} { padding${directionMap[d] || ''} : ${(+s) / 4}rem; }` }],
+  [/^p-(\d+)([a-z]*)$/, ([f, s, unit]) => `.${e(f)} { padding: ${unit ? s + unit : `${(+s) / 4}rem`}; }`],
+  [/^p([trlb])-(\d+)([a-z]*)$/, ([f, d, s, unit]) => `.${e(f)} { padding${directionMap[d] || ''} : ${unit ? s + unit : `${(+s) / 4}rem`}; }`],
 ]
